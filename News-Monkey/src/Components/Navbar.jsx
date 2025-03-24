@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { initFlowbite } from 'flowbite'
 import monkey from '../assets/monkey.png'
 import { Link } from 'react-router-dom'
 export default function Navbar() {

@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Data from './Components/Data'
 import { initFlowbite } from 'flowbite'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Layout from './Components/Layout'
 function App() {
+
+  useEffect(()=>
+  {
+    initFlowbite();
+    // Your code here to initialize Flowbite
+  })
 
   const router= createBrowserRouter([
     {path:'/',

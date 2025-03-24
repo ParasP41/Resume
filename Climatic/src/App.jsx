@@ -55,6 +55,7 @@ export default function App() {
     let CallAPI = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${selectedCountry.value.latitude}&longitude=${selectedCity.value.longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,uv_index_clear_sky_max,sunset,daylight_duration,sunrise,sunshine_duration,uv_index_max,wind_speed_10m_max&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,dew_point_2m,precipitation_probability,precipitation,rain,showers,snowfall,snow_depth,weather_code,wind_speed_180m,temperature_180m,is_day`)
     let res = await CallAPI.json()
     setData(res);
+    console.log(res)
   }
 
 
@@ -113,8 +114,8 @@ export default function App() {
     <>
 
 
-      <div className="relative bg-[url(https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&w=600)] h-screen w-full bg-no-repeat bg-cover bg-center">
-        <div className="absolute inset-0 backdrop-blur-md flex flex-col md:justify-around bg-black/40">
+      <div className="relative bg-[url(https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&w=600)] h-screen w-full bg-no-repeat bg-cover  bg-center">
+        <div className="absolute inset-0 backdrop-blur-md flex overflow-scroll overflow-x-clip  flex-col md:justify-around bg-black/40">
 
           <div className="relative z-10 md:flex  justify-between items-center ">
             <div className=" text-white md:w-120 p-6">
@@ -126,8 +127,8 @@ export default function App() {
                 <Select className='md:w-55 w-40' placeholder='Country' options={allCountries} value={selectedCountry} onChange={handlerSelectedCountry} />
                 <Select className='md:w-55 w-40' options={allCity} placeholder='City' value={selectedCity} onChange={handlerSelectedCity} />
               </div>
-              <button onClick={handletWeatherDetail} className="px-15 py-2 mt-4 bg-white/20 backdrop-blur-md text-white font-semibold rounded-lg shadow-md hover:bg-white/20 transition">
-                Click Me
+              <button onClick={handletWeatherDetail} className="px-10 py-2 mt-4 bg-white/20 backdrop-blur-md text-white font-semibold rounded-lg shadow-md hover:bg-white/20 transition">
+              Weather Now
               </button>
             </div>
           </div>
@@ -135,6 +136,7 @@ export default function App() {
           <div>
             <div className="w-full  max-w-7xl   mx-auto p-6  md:flex md:justify-between md:items-center text-white">
               <div className='my-5' >
+              <span className='font-thin text-xl md:text-2xl md:mx-4'>Max Apparent Temperature</span>
                 <div className="md:text-9xl text-6xl font-thin">{data?.daily?.apparent_temperature_max[0] || "0"}°C</div>
               </div>
 
