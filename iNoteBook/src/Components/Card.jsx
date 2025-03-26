@@ -17,14 +17,12 @@ export default function Card({ note }) {
 
     const handleDelete = () => {
         deleteNote(note.id);
-        alertMessage("Noted deleted Successfully")
-        // alert('Noted deleted Successfully')
+        alertMessage("Noted deleted Successfully ")
     }
 
     const handleEdit = () => {
         updateNote(note.id, { title, description });
-        alertMessage("Noted edited Successfully")
-        // alert('Noted edited Successfully')
+        alertMessage("Noted Edited Successfully")
 
     }
 
@@ -34,8 +32,7 @@ export default function Card({ note }) {
         element.href = URL.createObjectURL(file);
         element.download = `${title || "note"}.txt`;
         element.click();
-        alertMessage("Noted download Successfully")
-        // alert('Noted download Successfully')
+        alertMessage("Noted Download Successfully")
 
     };
 

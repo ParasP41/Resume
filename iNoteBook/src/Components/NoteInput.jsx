@@ -39,7 +39,7 @@ export default function NoteInput() {
             addNote({ title: title, description: description });  
             setTitle('');
             setDescription('');
-            alertMessage('Note Added Successfully');
+            alertMessage('Note Added successfully');
         }
 
         // console.log(title);

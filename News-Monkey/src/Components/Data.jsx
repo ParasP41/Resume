@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Card from './Card'
-import InfiniteScroll from 'react-infinite-scroll-component';
 import LoadingBar from 'react-top-loading-bar';
 export default function Data({category}) {
 
@@ -14,8 +13,7 @@ export default function Data({category}) {
 
     const handleData = async () => {
         try {
-            // let response = await fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${category || ""}&apiKey=71dbc848d129491588b607a267851f82`);
-            let response = await fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=ff14cac61936450092dc61d1efb89ef2`);
+            let response = await fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${category || ""}&apiKey=71dbc848d129491588b607a267851f82&pageSize=100`);
             setProgress(20)
             let res = await response.json();
             setProgress(50)
@@ -23,21 +21,6 @@ export default function Data({category}) {
             setProgress(90)
             setTotalArticles(res.totalResults);
             setProgress(100)
-        } catch (error) {
-            console.error("Error fetching news:", error);
-        }
-    };
-
-
-    const handlerNextData = async () => {
-        try {
-            // let response = await fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${category || ""}&apiKey=71dbc848d129491588b607a267851f82&page=${page + 1}`);
-            let response = await fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=ff14cac61936450092dc61d1efb89ef2&page=${page+1}`);
-
-            setPage(page + 1);
-            let res = await response.json();
-            setDataArr(dataArr.concat(res.articles));
-            setTotalArticles(res.totalResults);
         } catch (error) {
             console.error("Error fetching news:", error);
         }
@@ -57,11 +40,6 @@ export default function Data({category}) {
                         color='#f11946'
                         progress={progress}
                     />
-                    <InfiniteScroll
-                        dataLength={dataArr?.length}
-                        next={handlerNextData}
-                        hasMore={dataArr?.length !== totalArticles}
-                    >
                         <div className='lg:text-4xl md:text-xl lg:mb-5 sm:mb-3 mb-2 font-bold underline-offset-4 underline whitespace-nowrap dark:text-white text-center'>Today's Top Headlines</div>
                         <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4 mb-4">
                             {dataArr?.map((item, index) => {
@@ -70,7 +48,6 @@ export default function Data({category}) {
                                 )
                             })}
                         </div>
-                    </InfiniteScroll>
                 </div>
             </div>
 
