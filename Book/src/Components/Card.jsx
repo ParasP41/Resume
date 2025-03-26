@@ -1,20 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MdDelete, MdFileDownload } from "react-icons/md";
 import { MdCancel } from "react-icons/md";
+import useNote from "../Context/UseNote";
+import { IoCheckmarkDone } from "react-icons/io5";
+export default function Card({ note }) {
 
-export default function Card() {
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
+    const { updateNote, deleteNote,alertMessage } = useNote();
+    const [title, setTitle] = useState(note.title);
+    const [description, setDescription] = useState(note.description);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    useEffect(() => {
+        setTitle(note.title);
+        setDescription(note.description);
+    }, [note])
+
+    const handleDelete = () => {
+        deleteNote(note.id);
+        alertMessage("Noted deleted Successfully")
+        // alert('Noted deleted Successfully')
+    }
+
+    const handleEdit = () => {
+        updateNote(note.id, { title, description });
+        alertMessage("Noted edited Successfully")
+        // alert('Noted edited Successfully')
+
+    }
+
+    const handleDownload = () => {
+        const element = document.createElement("a");
+        const file = new Blob([`Title: ${title}\nDescription: ${description}`], { type: "text/plain" });
+        element.href = URL.createObjectURL(file);
+        element.download = `${title || "note"}.txt`;
+        element.click();
+        alertMessage("Noted download Successfully")
+        // alert('Noted download Successfully')
+
+    };
+
 
     return (
         <>
-            <div  className="cursor-pointer w-full border-1 md:min-w-[500px] max-w-[500px] bg-black break-inside-avoid">
+            <div className="cursor-pointer w-full border-1 md:min-w-[500px] max-w-[500px] bg-black break-inside-avoid">
                 <div onClick={() => setIsModalOpen(true)} className="relative block p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                    <h2 className="mb-2 text-2xl font-bold tracking-tight text-black dark:text-gray-400">
+                    <h2 className=" text-2xl font-bold tracking-tight text-black dark:text-gray-400">
                         {title || "Title"}
                     </h2>
-                   
+
                     <p className="text-black dark:text-gray-400">
                         {description || "Note"}
                     </p>
@@ -28,12 +61,12 @@ export default function Card() {
                             onClick={() => setIsModalOpen(false)}
                             className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
                         >
-                            <MdCancel  className="w-5 h-5" />
+                            <MdCancel className="w-5 h-5" />
 
                         </button>
 
                         <input
-                            className="mb-2 text-2xl font-bold outline-none tracking-tight text-black dark:text-white w-full p-2 bg-transparent"
+                            className="text-2xl font-bold outline-none tracking-tight text-black dark:text-white w-full p-2 bg-transparent"
                             type="text"
                             placeholder="Title"
                             value={title}
@@ -49,12 +82,35 @@ export default function Card() {
                             aria-label="Note"
                         />
                         <div className="absolute bottom-2 right-2 flex space-x-2">
+                           
+
+                            <div className="relative inline-block group">
+
+                                <button className="p-2 rounded-full text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 ">
+                                <IoCheckmarkDone onClick={handleEdit} className="w-5 h-5 " />
+                            </button>
+                                <div className="absolute left-0   p-1 bg-white border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200">
+                                    <p className="text-gray-700">Save</p>
+                                </div>
+                            </div>
+                            <div className="relative inline-block group">
+
                             <button className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
-                                <MdDelete className="w-5 h-5 " />
+                                <MdDelete onClick={handleDelete} className="w-5 h-5 " />
                             </button>
+                                <div className="absolute left-0   p-1 bg-white border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200">
+                                    <p className="text-gray-700">Delete</p>
+                                </div>
+                            </div>
+                            <div className="relative inline-block group">
+
                             <button className="p-2 rounded-full text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 ">
-                                <MdFileDownload className="w-5 h-5 " />
+                                <MdFileDownload onClick={handleDownload} className="w-5 h-5 " />
                             </button>
+                                <div className="absolute left-0   p-1 bg-white border rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200">
+                                    <p className="text-gray-700">Download</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
